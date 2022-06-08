@@ -15,6 +15,11 @@
 		30DD78667B75CEA0497D433A1BB40DCB /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA8DA4B5BD41583B9C084ED2192A85 /* String+Ext.swift */; };
 		33E876F5FA4CDDD8333737C579C8FE24 /* NativeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30138C2CAB67401F2A4C3CC731414C4 /* NativeStyle.swift */; };
 		350FEC290285B8FACAAE443C841689CC /* LinkFormatterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF295A12A18C431BE64CD0E0AAB1B1C2 /* LinkFormatterService.swift */; };
+		35C6173128505548006BE3F6 /* EJTableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C6173028505548006BE3F6 /* EJTableDataSource.swift */; };
+		35C6173728505554006BE3F6 /* EJCustomBlockTableAdaptable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C6173228505554006BE3F6 /* EJCustomBlockTableAdaptable.swift */; };
+		35C6173828505554006BE3F6 /* EJTableViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C6173328505554006BE3F6 /* EJTableViewAdapter.swift */; };
+		35C6173928505554006BE3F6 /* TableViewBlockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C6173428505554006BE3F6 /* TableViewBlockCell.swift */; };
+		35C6173A28505554006BE3F6 /* EJTableRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C6173528505554006BE3F6 /* EJTableRenderer.swift */; };
 		5167E0D9090CFB9CFF3746F84C96B644 /* Pods-EditorJSKit_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = AC7C2D1D7CB61463C77BEA0404F4D481 /* Pods-EditorJSKit_Example-dummy.m */; };
 		52C5D029E61A7A858BDA5458CCE5ABD2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		530BB4B0F51714B63C5DCAF3D5DF9824 /* ImageBlockContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4399ECDCF27E85BCE80103F19D36CB3D /* ImageBlockContent.swift */; };
@@ -103,6 +108,11 @@
 		27072265CBFED06F75A40FDF6EFC5B25 /* RawHtmlBlockView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RawHtmlBlockView.swift; sourceTree = "<group>"; };
 		2DBA8DA4B5BD41583B9C084ED2192A85 /* String+Ext.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		35C6173028505548006BE3F6 /* EJTableDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EJTableDataSource.swift; sourceTree = "<group>"; };
+		35C6173228505554006BE3F6 /* EJCustomBlockTableAdaptable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EJCustomBlockTableAdaptable.swift; sourceTree = "<group>"; };
+		35C6173328505554006BE3F6 /* EJTableViewAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EJTableViewAdapter.swift; sourceTree = "<group>"; };
+		35C6173428505554006BE3F6 /* TableViewBlockCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewBlockCell.swift; sourceTree = "<group>"; };
+		35C6173528505554006BE3F6 /* EJTableRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EJTableRenderer.swift; sourceTree = "<group>"; };
 		38DF1B65F42C7EE6202006B0F84FF8D6 /* ImageNativeContentView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ImageNativeContentView.swift; sourceTree = "<group>"; };
 		3DF43D8327EF72D6B5EC3B5F78B1F80A /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4053283F444BE9AE6017007FE408304B /* EJAbstractBlockRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EJAbstractBlockRenderer.swift; sourceTree = "<group>"; };
@@ -226,6 +236,18 @@
 				F1EC8B491AF9C5FC914CEB2C82F8C82D /* Pods-EditorJSKit_Tests */,
 			);
 			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		35C6173C285055B6006BE3F6 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				35C6173028505548006BE3F6 /* EJTableDataSource.swift */,
+				35C6173228505554006BE3F6 /* EJCustomBlockTableAdaptable.swift */,
+				35C6173528505554006BE3F6 /* EJTableRenderer.swift */,
+				35C6173428505554006BE3F6 /* TableViewBlockCell.swift */,
+				35C6173328505554006BE3F6 /* EJTableViewAdapter.swift */,
+			);
+			path = TableView;
 			sourceTree = "<group>";
 		};
 		425D9DA428DEE45359108ADCE84C2B40 /* Pods-EditorJSKit_Example */ = {
@@ -374,6 +396,7 @@
 		94A74FD02840BCFC008B26B9 /* Adapters */ = {
 			isa = PBXGroup;
 			children = (
+				35C6173C285055B6006BE3F6 /* TableView */,
 				94A74FD12840BD03008B26B9 /* CollectionView */,
 			);
 			name = Adapters;
@@ -666,8 +689,11 @@
 				5330E72007CC736DEA2E4EF1302374C4 /* DelimiterBlockContent.swift in Sources */,
 				8065268C89708D70BEDD0EE1EBE5BDE8 /* DelimiterBlockNativeStyle.swift in Sources */,
 				81F295C7E828D2FDAA4188E12180EB5B /* DelimiterBlockView.swift in Sources */,
+				35C6173A28505554006BE3F6 /* EJTableRenderer.swift in Sources */,
 				D8F74B6E7C6739FB55F8CB1A63136536 /* DelimiterNativeContentView.swift in Sources */,
 				B3ADFED4792861F05D512433102DC96B /* EditorJSKit-dummy.m in Sources */,
+				35C6173128505548006BE3F6 /* EJTableDataSource.swift in Sources */,
+				35C6173728505554006BE3F6 /* EJCustomBlockTableAdaptable.swift in Sources */,
 				733E1C4BEF3E0D76CC6034F9D2589FD1 /* EJAbstractBlock.swift in Sources */,
 				94A74FCF2840BC13008B26B9 /* ReusableBlockView.swift in Sources */,
 				56AD2C95681F7FC71089CE29FE30F444 /* EJAbstractBlockRenderer.swift in Sources */,
@@ -694,6 +720,7 @@
 				A4DA4C6A974818525E7C9A094E89F1EC /* LinkBlockView.swift in Sources */,
 				350FEC290285B8FACAAE443C841689CC /* LinkFormatterService.swift in Sources */,
 				091090C1A22809B7A009E8F3CF963189 /* LinkNativeContentView.swift in Sources */,
+				35C6173928505554006BE3F6 /* TableViewBlockCell.swift in Sources */,
 				DE082EF1679F6C821B4DBE738457A14A /* ListBlockContent.swift in Sources */,
 				58A242765C50D582051834045E65CFF5 /* ListBlockNativeStyle.swift in Sources */,
 				94A74FD52840BE66008B26B9 /* EJBlockView.swift in Sources */,
@@ -704,6 +731,7 @@
 				E25A3DD6FBD71876F3D5D1321D336936 /* NSAttributedString+Ext.swift in Sources */,
 				65F026CC147B6EA5878E19D8CA50DAFC /* ParagraphBlockContent.swift in Sources */,
 				FE8BC11B90563E05E7A95204483FFE9A /* ParagraphBlockNativeStyle.swift in Sources */,
+				35C6173828505554006BE3F6 /* EJTableViewAdapter.swift in Sources */,
 				7151C8044BED7E963C0ADB5AC0A14510 /* ParagraphBlockView.swift in Sources */,
 				746F9F7141DD960CAAB728579A30E53B /* ParagraphNativeContentView.swift in Sources */,
 				C15E33A1EC27B971A0A1BD71F7B1EE43 /* RawHtmlBlockContent.swift in Sources */,

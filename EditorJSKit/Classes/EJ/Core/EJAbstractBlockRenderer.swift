@@ -24,6 +24,14 @@ public protocol EJCollectionBlockRenderer: EJAbstractBlockRenderer {
     func insets(forBlock block: EJAbstractBlock) -> UIEdgeInsets
     func spacing(forBlock block: EJAbstractBlock) -> CGFloat
 }
+///
+public protocol EJTableBlockRenderer: EJAbstractBlockRenderer {
+    var tableView: UITableView { get }
+    var startSectionIndex: Int { get }
+    
+    func insets(forBlock block: EJAbstractBlock) -> UIEdgeInsets
+    func spacing(forBlock block: EJAbstractBlock) -> CGFloat
+}
 
 
 ///

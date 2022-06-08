@@ -1,63 +1,61 @@
 //
-//  EJCollectionViewAdapter.swift
+//  EJTableViewAdapter.swift
 //  EditorJSKit
 //
-//  Created by Vadim Popov on 28.05.2022.
+//  Created by Chang Wing Le on 07/06/2022.
 //
 
-import UIKit
+import Foundation
 
 ///
-public final class EJCollectionViewAdapter: NSObject {
+public final class EJTableViewAdapter: NSObject {
     
     ///
-    unowned let collectionView: UICollectionView
+    unowned let tableView: UITableView
     private let kit: EJKit
-    public var dataSource: EJCollectionDataSource?
+    public var dataSource: EJTableDataSource?
     
     /// Custom delegate if you witsh to override sizes / insets
-    public var delegate: UICollectionViewDelegateFlowLayout? {
+    public var delegate: UITableViewDelegate? {
         didSet {
-            collectionView.delegate = delegate
+            tableView.delegate = delegate
         }
     }
     
     // MARK: Inner tools
-    
-    private lazy var renderer = EJCollectionRenderer(collectionView: collectionView, kit: kit)
+    private lazy var renderer = EJTableRenderer(tableView: tableView, kit: kit)
     
     /**
      */
-    public init(collectionView: UICollectionView, kit: EJKit = .shared) {
-        self.collectionView = collectionView
+    public init(tableView: UITableView, kit: EJKit = .shared) {
+        self.tableView = tableView
         self.kit = kit
         super.init()
-        collectionView.dataSource = self
+        tableView.dataSource = self
         delegate = self
-        collectionView.delegate = delegate
+        tableView.delegate = delegate
     }
 }
 
 ///
-extension EJCollectionViewAdapter: UICollectionViewDataSource {
-    
+extension EJTableViewAdapter: UITableViewDataSource {
     /**
      */
-    public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return dataSource?.collectionData?.blocks.count ?? .zero
-    }
-
-    /**
-     */
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataSource?.collectionData?.blocks[section].data.numberOfItems ?? .zero
+    public func numberOfSections(in tableView: UITableView) -> Int {
+        return dataSource?.tableData?.blocks.count ?? .zero
     }
     
     /**
      */
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let data = dataSource?.collectionData else {
-            return UICollectionViewCell()
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataSource?.tableData?.blocks[section].data.numberOfItems ?? .zero
+    }
+    
+    /**
+     */
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let data = dataSource?.tableData else {
+            return UITableViewCell()
         }
         do {
             let block = data.blocks[indexPath.section]
@@ -65,36 +63,37 @@ extension EJCollectionViewAdapter: UICollectionViewDataSource {
             return try renderer.render(block: block, indexPath: indexPath, style: style)
         }
         catch {
-            return UICollectionViewCell()
+            return UITableViewCell()
         }
     }
 }
 
 ///
-extension EJCollectionViewAdapter: UICollectionViewDelegateFlowLayout {
-    
+extension EJTableViewAdapter: UITableViewDelegate {
     /**
      */
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let data = dataSource?.collectionData,
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
+        guard let data = dataSource?.tableData,
               (.zero ..< data.blocks.count).contains(indexPath.section)
         else { return .zero }
         do {
             let block = data.blocks[indexPath.section]
             let style = kit.style.getStyle(forBlockType: block.type)
+            
+            //return 80
             return try renderer.size(forBlock: block,
                                      itemIndex: indexPath.item,
                                      style: style,
-                                     superviewSize: collectionView.frame.size)
+                                     superviewSize: tableView.frame.size).height
         } catch {
             return .zero
         }
     }
-
+    /*
     /**
      */
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        guard let data = dataSource?.collectionData,
+        guard let data = dataSource?.data,
               (.zero ..< data.blocks.count).contains(section)
         else { return .zero }
         return renderer.spacing(forBlock: data.blocks[section])
@@ -103,9 +102,10 @@ extension EJCollectionViewAdapter: UICollectionViewDelegateFlowLayout {
     /**
      */
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        guard let data = dataSource?.collectionData,
+        guard let data = dataSource?.data,
               (.zero ..< data.blocks.count).contains(section)
         else { return .zero }
         return renderer.insets(forBlock: data.blocks[section])
     }
+    */
 }
