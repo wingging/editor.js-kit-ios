@@ -9,7 +9,7 @@
 import Foundation
 
 ///
-public struct EJBlocksList: Decodable {
+public struct EJBlocksList: Decodable, Encodable {
     public let time: Int
     public var blocks: [EJAbstractBlock]
     public let version: String
@@ -33,6 +33,13 @@ public struct EJBlocksList: Decodable {
         }
     }
     
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(time, forKey: .time)
+        try container.encode(version, forKey: .version)
+        try container.encode(blocks, forKey: .blocks)
+    }
+    
     /**
      Use this function to decode with a given kit instance.
      Different kits may contain different custom blocks and styles registered.
@@ -47,6 +54,15 @@ public struct EJBlocksList: Decodable {
 ///
 public final class EJBlocksDecoder: JSONDecoder {
     
+    /**
+     */
+    init(kit: EJKit) {
+        super.init()
+        userInfo[EJKit.Keys.kit.codingUserInfo] = kit
+    }
+}
+///
+public final class EJBlocksEncoder: JSONEncoder {
     /**
      */
     init(kit: EJKit) {

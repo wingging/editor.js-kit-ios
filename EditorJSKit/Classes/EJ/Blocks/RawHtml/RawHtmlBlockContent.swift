@@ -10,19 +10,34 @@ import Foundation
 
 ///
 public class RawHtmlBlockContent: EJAbstractBlockContentSingleItem {
-    public let item: EJAbstractBlockContentItem
+    public var item: EJAbstractBlockContentItem
+    
+    public init(passedItem: EJAbstractBlockContentItem){
+        item = passedItem
+    }
+    
+    public func setItem(atIndex index: Int, contentItem: EJAbstractBlockContentItem) {
+        item = contentItem
+    }
     
     public required init(from decoder: Decoder) throws {
         item = try RawHtmlBlockContentItem(from: decoder)
+    }
+    public func encode(to encoder: Encoder) throws {
+        try item.encode(to: encoder)
     }
 }
 
 ///
 public class RawHtmlBlockContentItem: EJAbstractBlockContentItem {
-    public let html: String
+    public var html: String
     var cachedAttributedString: NSAttributedString?
     
     enum CodingKeys: String, CodingKey { case html }
+    
+    public init(passedHtml: String){
+        html = passedHtml
+    }
     
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)

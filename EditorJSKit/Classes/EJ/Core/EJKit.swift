@@ -34,6 +34,13 @@ open class EJKit {
         let decoder = EJBlocksDecoder(kit: self)
         return try decoder.decode(EJBlocksList.self, from: data)
     }
+    
+    /**
+     */
+    public func encode(blocksList: EJBlocksList) throws -> Data {
+        let encoder = EJBlocksEncoder(kit: self)
+        return try encoder.encode(blocksList)
+    }
 }
 
 ///

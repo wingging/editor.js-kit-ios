@@ -45,7 +45,7 @@ open class EJCollectionRenderer: EJCollectionBlockRenderer {
             let content = block.data as! HeaderBlockContent
             let item = content.getItem(atIndex: .zero) as! HeaderBlockContentItem
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath) as! Cell
-            cell.configure(withItem: item, style: style)
+            cell.configure(withItem: item, style: style, indexPath: indexPath, delegate: nil)
             return cell
             
         case EJNativeBlockType.image:
@@ -60,7 +60,7 @@ open class EJCollectionRenderer: EJCollectionBlockRenderer {
                 }
             }
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath) as! Cell
-            cell.configure(withItem: item, style: style)
+            cell.configure(withItem: item, style: style, indexPath: indexPath, delegate: nil)
             return cell
             
         case EJNativeBlockType.list:
@@ -70,7 +70,7 @@ open class EJCollectionRenderer: EJCollectionBlockRenderer {
             let content = block.data as! ListBlockContent
             let item = content.getItem(atIndex: indexPath.item) as! ListBlockContentItem
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath) as! Cell
-            cell.configure(withItem: item, style: style)
+            cell.configure(withItem: item, style: style, indexPath: indexPath, delegate: nil)
             return cell
             
         case EJNativeBlockType.linkTool:
@@ -80,7 +80,7 @@ open class EJCollectionRenderer: EJCollectionBlockRenderer {
             let content = block.data as! LinkBlockContent
             let item = content.getItem(atIndex: .zero) as! LinkBlockContentItem
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath) as! Cell
-            cell.configure(withItem: item, style: style)
+            cell.configure(withItem: item, style: style, indexPath: indexPath, delegate: nil)
             return cell
             
         case EJNativeBlockType.delimiter:
@@ -90,7 +90,7 @@ open class EJCollectionRenderer: EJCollectionBlockRenderer {
             let content = block.data as! DelimiterBlockContent
             let item = content.getItem(atIndex: .zero) as! DelimiterBlockContentItem
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath) as! Cell
-            cell.configure(withItem: item, style: style)
+            cell.configure(withItem: item, style: style, indexPath: indexPath, delegate: nil)
             return cell
             
         case EJNativeBlockType.paragraph:
@@ -100,7 +100,7 @@ open class EJCollectionRenderer: EJCollectionBlockRenderer {
             let content = block.data as! ParagraphBlockContent
             let item = content.getItem(atIndex: .zero) as! ParagraphBlockContentItem
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath) as! Cell
-            cell.configure(withItem: item, style: style)
+            cell.configure(withItem: item, style: style, indexPath: indexPath, delegate: nil)
             return cell
             
         case EJNativeBlockType.raw:
@@ -110,7 +110,7 @@ open class EJCollectionRenderer: EJCollectionBlockRenderer {
             let content = block.data as! RawHtmlBlockContent
             let item = content.getItem(atIndex: .zero) as! RawHtmlBlockContentItem
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath) as! Cell
-            cell.configure(withItem: item, style: style)
+            cell.configure(withItem: item, style: style, indexPath: indexPath, delegate: nil)
             return cell
             
         default: throw EJError.missmatch

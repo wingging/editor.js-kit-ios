@@ -10,3 +10,6 @@ import Foundation
 ///
 public protocol EJBlockView: ConfigurableBlockView,
                              ReusableBlockView {}
+
+public protocol EJBlockViewWithDelegate: ConfigurableBlockViewWithDelegate,
+                             ReusableBlockView {}

@@ -10,10 +10,18 @@ import Foundation
 
 ///
 open class ImageBlockContent: EJAbstractBlockContentSingleItem {
-    public let item: EJAbstractBlockContentItem
+    public var item: EJAbstractBlockContentItem
+    
+    public func setItem(atIndex index: Int, contentItem: EJAbstractBlockContentItem) {
+        item = contentItem
+    }
     
     required public init(from decoder: Decoder) throws {
         item = try ImageBlockContentItem(from: decoder)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        try item.encode(to: encoder)
     }
 }
 
@@ -21,7 +29,7 @@ open class ImageBlockContent: EJAbstractBlockContentSingleItem {
 public class ImageBlockContentItem: EJAbstractBlockContentItem {
     enum CodingKeys: String, CodingKey { case file, caption, withBorder,stretched, withBackground }
     public let file: ImageFile
-    public let caption: String
+    public var caption: String
     public let withBorder: Bool
     public let stretched: Bool
     public let withBackground: Bool
@@ -36,10 +44,19 @@ public class ImageBlockContentItem: EJAbstractBlockContentItem {
         stretched = try container.decode(Bool.self, forKey: .stretched)
         withBackground = try container.decode(Bool.self, forKey: .withBackground)
     }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(file, forKey: .file)
+        try container.encode(caption, forKey: .caption)
+        try container.encode(withBorder, forKey: .withBorder)
+        try container.encode(stretched, forKey: .stretched)
+        try container.encode(withBackground, forKey: .withBackground)
+    }
 }
 
 ///
-public class ImageFile: Decodable {
+public class ImageFile: Decodable, Encodable {
     enum CodingKeys: String, CodingKey { case url }
     
     public let url: URL
@@ -53,5 +70,10 @@ public class ImageFile: Decodable {
             self?.imageData = data
             self?.callback?()
         }
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(url, forKey: .url)
     }
 }

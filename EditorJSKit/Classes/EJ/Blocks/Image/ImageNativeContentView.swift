@@ -9,11 +9,11 @@
 import UIKit
 
 ///
-public class ImageNativeContentView: UIView, ConfigurableBlockView {
+public class ImageNativeContentView: UIView, ConfigurableBlockViewWithDelegate {
     
     // MARK: - UI Properties
     public let imageView = UIImageView()
-    public let label = UILabel()
+    public let textView = UITextViewFixed()
     
     private var imageWidth: NSLayoutConstraint?
     private var imageHeight: NSLayoutConstraint?
@@ -35,7 +35,7 @@ public class ImageNativeContentView: UIView, ConfigurableBlockView {
     
     private func setupViews() {
         addSubview(imageView)
-        addSubview(label)
+        addSubview(textView)
         
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
@@ -51,15 +51,18 @@ public class ImageNativeContentView: UIView, ConfigurableBlockView {
         self.imageWidth = imageWidth
         self.imageHeight = imageHeight
         
-        label.numberOfLines = .zero
-        label.translatesAutoresizingMaskIntoConstraints = false
+        textView.backgroundColor = .clear
+        textView.isEditable = true
+        textView.alwaysBounceVertical = false
+        textView.isScrollEnabled = false
+        textView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func setImage(from data: Data, item: ImageBlockContentItem) {
         if let image = UIImage(data: data) {
             DispatchQueue.main.async {
                 self.imageView.image = image
-                self.label.isHidden = false
+                self.textView.isHidden = false
                 self.imageView.isHidden = false
                 if let imageSize = ImageNativeContentView.imageSize(for: item, containerMaxWidth: self.bounds.width) {
                     self.imageWidth?.constant = imageSize.width
@@ -91,9 +94,7 @@ public class ImageNativeContentView: UIView, ConfigurableBlockView {
     }
     
     // MARK: - ConfigurableBlockView conformance
-    
-    public func configure(withItem item: ImageBlockContentItem, style: EJBlockStyle?) {
-        
+    public func configure(withItem item: ImageBlockContentItem, style: EJBlockStyle?, indexPath: IndexPath?, delegate: UITextViewDelegate?) {
         // 1. Apply basic style
         layer.cornerRadius = style?.cornerRadius ?? .zero
         imageView.backgroundColor = .clear
@@ -108,13 +109,13 @@ public class ImageNativeContentView: UIView, ConfigurableBlockView {
             if item.cachedAttributedCaption == nil {
                 item.cachedAttributedCaption = attributedCaption
             }
-            label.attributedText = attributedCaption
+            textView.attributedText = attributedCaption
             withBackground = item.withBackground
-            label.isHidden = false
+            textView.isHidden = false
             imageView.isHidden = false
         }
         else {
-            label.isHidden = true
+            textView.isHidden = true
             imageView.isHidden = true
         }
         
@@ -122,9 +123,9 @@ public class ImageNativeContentView: UIView, ConfigurableBlockView {
         let captionInsets = style.captionInsets
         if appliedCaptionInsets != captionInsets {
             let constraints = [
-                label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(captionInsets.bottom)),
-                label.leftAnchor.constraint(equalTo: leftAnchor, constant: captionInsets.left),
-                label.rightAnchor.constraint(equalTo: rightAnchor, constant: -(captionInsets.right))
+                textView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(captionInsets.bottom)),
+                textView.leftAnchor.constraint(equalTo: leftAnchor, constant: captionInsets.left),
+                textView.rightAnchor.constraint(equalTo: rightAnchor, constant: -(captionInsets.right))
             ]
             if appliedCaptionInsets != nil {
                 NSLayoutConstraint.deactivate(constraints)
@@ -133,8 +134,10 @@ public class ImageNativeContentView: UIView, ConfigurableBlockView {
             appliedCaptionInsets = captionInsets
         }
         
-        label.textColor = style.captionColor
-        label.textAlignment = style.textAlignment
+        textView.setTextViewMark(indexPath: indexPath)
+        textView.textColor = style.captionColor
+        textView.textAlignment = style.textAlignment
+        textView.delegate = delegate
         imageView.layer.cornerRadius = style.imageViewCornerRadius
         
         if withBackground {
@@ -162,6 +165,9 @@ public class ImageNativeContentView: UIView, ConfigurableBlockView {
             height += style.captionInsets.top + style.captionInsets.bottom
         }
         
+        //let cellspacing: CGFloat = 50
+        
+        //return CGSize(width: boundingWidth, height: height + cellspacing)
         return CGSize(width: boundingWidth, height: height)
     }
 }

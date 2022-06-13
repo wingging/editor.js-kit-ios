@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class LinkNativeContentView: UIView, ConfigurableBlockView {
+open class LinkNativeContentView: UIView, ConfigurableBlockViewWithDelegate {
     
     private weak var item: LinkBlockContentItem?
     
@@ -106,12 +106,12 @@ open class LinkNativeContentView: UIView, ConfigurableBlockView {
     
     @objc private func tapAction(_ sender: UITapGestureRecognizer) {
         guard let url = item?.link else { return }
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        //UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
     
     // MARK: - ConfigurableBlockView conformance
     
-    public func configure(withItem item: LinkBlockContentItem, style: EJBlockStyle?) {
+    public func configure(withItem item: LinkBlockContentItem, style: EJBlockStyle?, indexPath: IndexPath?, delegate: UITextViewDelegate?) {
         self.item = item
         
         // 1. Apply basic style
@@ -164,7 +164,7 @@ open class LinkNativeContentView: UIView, ConfigurableBlockView {
 
         imageView.layer.cornerRadius = style.imageCornerRadius
     }
-    
+
     /**
      */
     public static func estimatedSize(for item: LinkBlockContentItem, style: EJBlockStyle?, boundingWidth: CGFloat) -> CGSize {

@@ -6,12 +6,13 @@
 //
 
 ///
-public protocol EJAbstractBlockContentItem: Decodable {}
+public protocol EJAbstractBlockContentItem: Decodable, Encodable{}
 
 ///
-public protocol EJAbstractBlockContent: Decodable {
+public protocol EJAbstractBlockContent: Decodable, Encodable {
     var numberOfItems: Int { get }
     func getItem(atIndex index: Int) -> EJAbstractBlockContentItem?
+    func setItem(atIndex index: Int, contentItem: EJAbstractBlockContentItem)
 }
 
 ///

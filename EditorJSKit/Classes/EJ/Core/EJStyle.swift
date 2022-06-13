@@ -43,6 +43,7 @@ open class EJStyle: EJStyleProtocol {
     
     open var defaultItemsLineSpacing: CGFloat = 4
     open var defaultSectionInsets = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
+    open var defaultTableCellSpacing: CGFloat = 24
     open var defaultItemSize: CGSize = .zero
     
     public func set(style: EJBlockStyle, for blockType: EJAbstractBlockType) {

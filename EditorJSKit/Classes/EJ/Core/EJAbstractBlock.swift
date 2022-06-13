@@ -7,7 +7,7 @@
 //
 
 ///
-public protocol EJAbstractBlockProtocol: Decodable {
+public protocol EJAbstractBlockProtocol: Decodable, Encodable {
     var type: EJAbstractBlockType { get }
     var data: EJAbstractBlockContent { get }
 }
@@ -18,6 +18,11 @@ open class EJAbstractBlock: EJAbstractBlockProtocol {
     public var data: EJAbstractBlockContent
     
     public enum CodingKeys: String, CodingKey { case type, data }
+    
+    public init(initType: EJAbstractBlockType, initData: EJAbstractBlockContent){
+        type = initType
+        data = initData
+    }
     
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -60,11 +65,39 @@ open class EJAbstractBlock: EJAbstractBlockProtocol {
             return
         }
         
-        
         throw DecodingError.dataCorrupted(
             DecodingError.Context(
                 codingPath: [CodingKeys.type],
                 debugDescription: "Unable to parse block - no native or custom type found"))
     }
     
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(type.rawValue, forKey: .type)
+        switch type.rawValue{
+            case "header":
+                let data = self.data as! HeaderBlockContent
+                try container.encode(data, forKey: .data)
+            case "image":
+                let data = self.data as! ImageBlockContent
+                try container.encode(data, forKey: .data)
+            case "list":
+                let data = self.data as! ListBlockContent
+                try container.encode(data, forKey: .data)
+            case "linkTool":
+                let data = self.data as! LinkBlockContent
+                try container.encode(data, forKey: .data)
+            case "delimiter":
+                let data = self.data as! DelimiterBlockContent
+                try container.encode(data, forKey: .data)
+            case "paragraph":
+                let data = self.data as! ParagraphBlockContent
+            try container.encode(data, forKey: .data)
+            case "raw":
+                let data = self.data as! RawHtmlBlockContent
+                try container.encode(data, forKey: .data)
+            default:
+                print("Not item encoded")
+        }
+    }
 }

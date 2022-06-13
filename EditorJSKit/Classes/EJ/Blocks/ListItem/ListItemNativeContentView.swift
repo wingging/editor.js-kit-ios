@@ -9,7 +9,8 @@
 import UIKit
 
 ///
-open class ListItemNativeContentView: UIView, ConfigurableBlockView {
+open class ListItemNativeContentView: UIView, ConfigurableBlockViewWithDelegate {
+    
     public let textView = UITextViewFixed()
     private let imageView = UIImageView()
     
@@ -50,7 +51,7 @@ open class ListItemNativeContentView: UIView, ConfigurableBlockView {
         ])
         
         textView.backgroundColor = .clear
-        textView.isEditable = false
+        textView.isEditable = true
         textView.alwaysBounceVertical = false
         textView.isScrollEnabled = false
         addSubview(textView)
@@ -92,7 +93,7 @@ open class ListItemNativeContentView: UIView, ConfigurableBlockView {
     
     // MARK: - ConfigurableBlockView conformance
     
-    public func configure(withItem item: ListBlockContentItem, style: EJBlockStyle?) {
+    public func configure(withItem item: ListBlockContentItem, style: EJBlockStyle?, indexPath: IndexPath?, delegate: UITextViewDelegate?) {
         guard let style = style as? EJListBlockStyle else { return }
         
         // 1. Apply UI
@@ -108,7 +109,9 @@ open class ListItemNativeContentView: UIView, ConfigurableBlockView {
         // 2. Apply content
         item.prepareCachedAttributedString(withStyle: style)
         let attributedString = Self.makeAttributedString(item: item, style: style)
+        textView.setTextViewMark(indexPath: indexPath)
         textView.attributedText = attributedString
+        textView.delegate = delegate
 
         imageSize = item.style == .unordered ? style.sizeForUnorderedImage : .zero
         widthConstraint?.constant = imageSize.width

@@ -9,7 +9,8 @@
 import UIKit
 
 ///
-open class RawHtmlNativeContentView: UIView, ConfigurableBlockView {
+open class RawHtmlNativeContentView: UIView, ConfigurableBlockViewWithDelegate {
+    
     public let textView = UITextViewFixed()
     
     override init(frame: CGRect) {
@@ -26,7 +27,7 @@ open class RawHtmlNativeContentView: UIView, ConfigurableBlockView {
     private func setupViews() {
         addSubview(textView)
         
-        textView.isEditable = false
+        textView.isEditable = true
         textView.textContainerInset = .zero
         textView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -38,17 +39,17 @@ open class RawHtmlNativeContentView: UIView, ConfigurableBlockView {
     }
     
     // MARK: - ConfigurableBlockView conformance
-    
-    public func configure(withItem item: RawHtmlBlockContentItem, style: EJBlockStyle?) {
+    public func configure(withItem item: RawHtmlBlockContentItem, style: EJBlockStyle?, indexPath: IndexPath?, delegate: UITextViewDelegate?) {
         guard let style = style as? EJRawHtmlBlockStyle else { return }
         
         let attributedString = item.cachedAttributedString ?? item.html.convertHTML(font: style.font)
         if item.cachedAttributedString == nil {
             item.cachedAttributedString = attributedString
         }
+        textView.setTextViewMark(indexPath: indexPath)
         textView.attributedText = attributedString
-        
         textView.linkTextAttributes = style.linkTextAttributes
+        textView.delegate = delegate
         backgroundColor = style.backgroundColor
         layer.cornerRadius = style.cornerRadius
     }

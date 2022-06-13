@@ -17,6 +17,14 @@ public protocol EJAbstractBlockRenderer {
 }
 
 ///
+public protocol EJAbstractBlockRendererWithDelegate {
+    associatedtype View
+    
+    func render(block: EJAbstractBlock, indexPath: IndexPath, style: EJBlockStyle?, delegate: UITextViewDelegate?) throws -> View
+    func size(forBlock: EJAbstractBlock, itemIndex: Int, style: EJBlockStyle?, superviewSize: CGSize) throws -> CGSize
+}
+
+///
 public protocol EJCollectionBlockRenderer: EJAbstractBlockRenderer {
     var collectionView: UICollectionView { get }
     var startSectionIndex: Int { get }
@@ -25,7 +33,7 @@ public protocol EJCollectionBlockRenderer: EJAbstractBlockRenderer {
     func spacing(forBlock block: EJAbstractBlock) -> CGFloat
 }
 ///
-public protocol EJTableBlockRenderer: EJAbstractBlockRenderer {
+public protocol EJTableBlockRenderer: EJAbstractBlockRendererWithDelegate {
     var tableView: UITableView { get }
     var startSectionIndex: Int { get }
     

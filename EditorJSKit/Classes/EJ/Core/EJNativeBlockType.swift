@@ -9,7 +9,7 @@
 import Foundation
 
 ///
-public protocol EJAbstractBlockType: Decodable {
+public protocol EJAbstractBlockType: Decodable, Encodable {
     var rawValue: String { get }
     init?(rawValue: String)
     func decode(container: KeyedDecodingContainer<EJAbstractBlock.CodingKeys>) throws -> EJAbstractBlockType

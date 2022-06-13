@@ -10,11 +10,16 @@ import Foundation
 
 ///
 public class DelimiterBlockContent: EJAbstractBlockContentSingleItem {
-    public let item: EJAbstractBlockContentItem = DelimiterBlockContentItem()
+    public var item: EJAbstractBlockContentItem = DelimiterBlockContentItem()
+    
+    public func setItem(atIndex index: Int, contentItem: EJAbstractBlockContentItem) {
+        item = contentItem
+    }
+    
     enum CodingKeys: CodingKey {}
 }
 
 ///
 public class DelimiterBlockContentItem: EJAbstractBlockContentItem {
-    let text = "\u{FF0A} \u{FF0A} \u{FF0A}"
+    var text = "\u{FF0A} \u{FF0A} \u{FF0A}"
 }

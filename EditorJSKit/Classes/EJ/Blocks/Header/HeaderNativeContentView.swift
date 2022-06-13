@@ -8,10 +8,9 @@
 
 import UIKit
 
-///
-public class HeaderNativeContentView: UIView, ConfigurableBlockView {
+public class HeaderNativeContentView: UIView, ConfigurableBlockViewWithDelegate {
     
-    public let label = UILabel()
+    public let textView = UITextViewFixed()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,33 +22,38 @@ public class HeaderNativeContentView: UIView, ConfigurableBlockView {
     }
     
     private func setupViews() {
-        addSubview(label)
+        addSubview(textView)
         
-        label.translatesAutoresizingMaskIntoConstraints = false
+        textView.backgroundColor = .clear
+        textView.isEditable = true
+        textView.alwaysBounceVertical = false
+        textView.isScrollEnabled = false
+        textView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            label.leftAnchor.constraint(equalTo: leftAnchor),
-            label.rightAnchor.constraint(equalTo: rightAnchor),
-            label.topAnchor.constraint(equalTo: topAnchor),
-            label.bottomAnchor.constraint(equalTo: bottomAnchor)
+            textView.leftAnchor.constraint(equalTo: leftAnchor),
+            textView.rightAnchor.constraint(equalTo: rightAnchor),
+            textView.topAnchor.constraint(equalTo: topAnchor),
+            textView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
     
     // MARK: - ConfigurableBlockView conformance
-    
-    public func configure(withItem item: HeaderBlockContentItem, style: EJBlockStyle?) {
+    public func configure(withItem item: HeaderBlockContentItem, style: EJBlockStyle?, indexPath: IndexPath?, delegate: UITextViewDelegate?) {
         guard let style = style as? EJHeaderBlockStyle else {
-            label.text = item.text
+            textView.text = item.text
             return
         }
         let attributedString = item.text.convertHTML(font: style.font(forHeaderLevel: item.level), forceFontFace: true)
         if item.cachedAttributedString == nil {
             item.cachedAttributedString = attributedString
         }
-        label.attributedText = attributedString
+        textView.attributedText = attributedString
         
         backgroundColor = style.backgroundColor
         layer.cornerRadius = style.cornerRadius
-        label.textAlignment = style.alignment
+        textView.setTextViewMark(indexPath: indexPath)
+        textView.textAlignment = style.alignment
+        textView.delegate = delegate
     }
     
     public static func estimatedSize(for item: HeaderBlockContentItem, style: EJBlockStyle?, boundingWidth: CGFloat) -> CGSize {
@@ -58,9 +62,10 @@ public class HeaderNativeContentView: UIView, ConfigurableBlockView {
         if item.cachedAttributedString == nil {
             item.cachedAttributedString = attributedString
         }
+        
         let newBoundingWidth = boundingWidth - (style.insets.left + style.insets.right)
         let height = attributedString?.height(withConstrainedWidth: newBoundingWidth) ?? .zero
+        
         return CGSize(width: boundingWidth, height: height)
     }
 }
-

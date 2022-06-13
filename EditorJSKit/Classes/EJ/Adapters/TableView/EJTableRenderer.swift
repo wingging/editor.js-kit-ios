@@ -9,6 +9,7 @@ import Foundation
 
 ///
 open class EJTableRenderer: EJTableBlockRenderer {
+    
     unowned public var tableView: UITableView
     
     public typealias View = UITableViewCell
@@ -24,7 +25,8 @@ open class EJTableRenderer: EJTableBlockRenderer {
         
     /**
      */
-    public func render(block: EJAbstractBlock, indexPath: IndexPath, style: EJBlockStyle? = nil) throws -> View {
+    
+    public func render(block: EJAbstractBlock, indexPath: IndexPath, style: EJBlockStyle? = nil, delegate: UITextViewDelegate?) throws -> View {
         let style = style ?? kit.style.getStyle(forBlockType: block.type)
         
         if let customBlock = kit.retrieveCustomBlock(ofType: block.type) as? EJCustomBlockTableAdaptable,
@@ -45,7 +47,8 @@ open class EJTableRenderer: EJTableBlockRenderer {
             let content = block.data as! HeaderBlockContent
             let item = content.getItem(atIndex: .zero) as! HeaderBlockContentItem
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseId, for: indexPath) as! Cell
-            cell.configure(withItem: item, style: style)
+            cell.setTextViewTag(indexPath: indexPath)
+            cell.configure(withItem: item, style: style, indexPath: indexPath, delegate: delegate)
             return cell
             
         case EJNativeBlockType.image:
@@ -60,7 +63,8 @@ open class EJTableRenderer: EJTableBlockRenderer {
                 }
             }
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseId, for: indexPath) as! Cell
-            cell.configure(withItem: item, style: style)
+            cell.setTextViewTag(indexPath: indexPath)
+            cell.configure(withItem: item, style: style, indexPath: indexPath, delegate: delegate)
             return cell
             
         case EJNativeBlockType.list:
@@ -70,7 +74,8 @@ open class EJTableRenderer: EJTableBlockRenderer {
             let content = block.data as! ListBlockContent
             let item = content.getItem(atIndex: indexPath.item) as! ListBlockContentItem
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseId, for: indexPath) as! Cell
-            cell.configure(withItem: item, style: style)
+            cell.setTextViewTag(indexPath: indexPath)
+            cell.configure(withItem: item, style: style, indexPath: indexPath, delegate: delegate)
             return cell
             
         case EJNativeBlockType.linkTool:
@@ -80,7 +85,8 @@ open class EJTableRenderer: EJTableBlockRenderer {
             let content = block.data as! LinkBlockContent
             let item = content.getItem(atIndex: .zero) as! LinkBlockContentItem
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseId, for: indexPath) as! Cell
-            cell.configure(withItem: item, style: style)
+            cell.setTextViewTag(indexPath: indexPath)
+            cell.configure(withItem: item, style: style, indexPath: indexPath, delegate: delegate)
             return cell
             
         case EJNativeBlockType.delimiter:
@@ -90,7 +96,8 @@ open class EJTableRenderer: EJTableBlockRenderer {
             let content = block.data as! DelimiterBlockContent
             let item = content.getItem(atIndex: .zero) as! DelimiterBlockContentItem
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseId, for: indexPath) as! Cell
-            cell.configure(withItem: item, style: style)
+            cell.setTextViewTag(indexPath: indexPath)
+            cell.configure(withItem: item, style: style, indexPath: indexPath, delegate: delegate)
             return cell
             
         case EJNativeBlockType.paragraph:
@@ -100,7 +107,8 @@ open class EJTableRenderer: EJTableBlockRenderer {
             let content = block.data as! ParagraphBlockContent
             let item = content.getItem(atIndex: .zero) as! ParagraphBlockContentItem
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseId, for: indexPath) as! Cell
-            cell.configure(withItem: item, style: style)
+            cell.setTextViewTag(indexPath: indexPath)
+            cell.configure(withItem: item, style: style, indexPath: indexPath, delegate: delegate)
             return cell
             
         case EJNativeBlockType.raw:
@@ -110,12 +118,13 @@ open class EJTableRenderer: EJTableBlockRenderer {
             let content = block.data as! RawHtmlBlockContent
             let item = content.getItem(atIndex: .zero) as! RawHtmlBlockContentItem
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseId, for: indexPath) as! Cell
-            cell.configure(withItem: item, style: style)
+            cell.setTextViewTag(indexPath: indexPath)
+            
+            cell.configure(withItem: item, style: style, indexPath: indexPath, delegate: delegate)
             return cell
             
         default: throw EJError.missmatch
         }
-        
     }
     
     public func size(forBlock block: EJAbstractBlock, itemIndex: Int, style: EJBlockStyle?, superviewSize: CGSize) throws -> CGSize {

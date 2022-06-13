@@ -9,18 +9,36 @@ import Foundation
 
 ///
 public class ParagraphBlockContent: EJAbstractBlockContentSingleItem {
-    public let item: EJAbstractBlockContentItem
+    
+    public var item: EJAbstractBlockContentItem
+    
+    public init(passedItem: EJAbstractBlockContentItem){
+        item = passedItem
+    }
     
     required public init(from decoder: Decoder) throws {
         item = try ParagraphBlockContentItem(from: decoder)
+    }
+    
+    public func setItem(atIndex index: Int, contentItem: EJAbstractBlockContentItem) {
+        item = contentItem
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        try item.encode(to: encoder)
     }
 }
 
 ///
 public class ParagraphBlockContentItem: EJAbstractBlockContentItem {
-    public let text: String
+    public var text: String
     let htmlReadyText: String
     public var cachedAttributedString: NSAttributedString?
+    
+    public init(readyText: String, htmlText: String){
+        text = readyText
+        htmlReadyText = htmlText
+    }
     
     enum CodingKeys: String, CodingKey { case text }
     

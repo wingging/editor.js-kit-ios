@@ -7,11 +7,14 @@
 
 import Foundation
 
-public class TableViewBlockCell<EmbeddedView: UIView>: UITableViewCell, ConfigurableBlockView where EmbeddedView: EJBlockView {
+public class TableViewBlockCell<EmbeddedView: UIView>: UITableViewCell, ConfigurableBlockViewWithDelegate where EmbeddedView: EJBlockViewWithDelegate {
     
     public typealias BlockContentItem = EmbeddedView.BlockContentItem
     
     private let embeddedView = EmbeddedView()
+    
+    private var section : Int?
+    private var row : Int?
 
     override public var reuseIdentifier: String? {
         EmbeddedView.reuseId
@@ -37,8 +40,17 @@ public class TableViewBlockCell<EmbeddedView: UIView>: UITableViewCell, Configur
         ])
     }
     
-    public func configure(withItem item: BlockContentItem, style: EJBlockStyle?) {
-        embeddedView.configure(withItem: item, style: style)
+    public func setTextViewTag(indexPath: IndexPath){
+        row = indexPath.row
+        section = indexPath.section
+    }
+    
+    public func configure(withItem item: EmbeddedView.BlockContentItem, style: EJBlockStyle?, indexPath: IndexPath?, delegate: UITextViewDelegate?) {
+        if row != nil && section != nil{
+            embeddedView.configure(withItem: item, style: style, indexPath: IndexPath(row: row!, section: section!), delegate: delegate)
+        }else{
+            embeddedView.configure(withItem: item, style: style, indexPath: nil, delegate: delegate)
+        }
     }
 
     /**

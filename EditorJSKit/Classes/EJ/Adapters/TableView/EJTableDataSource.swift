@@ -9,5 +9,5 @@ import Foundation
 
 ///
 public protocol EJTableDataSource {
-    var tableData: EJBlocksList? { get }
+    var tableData: EJBlocksList? { get}
 }

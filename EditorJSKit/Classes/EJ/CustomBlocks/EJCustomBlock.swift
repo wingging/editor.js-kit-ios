@@ -13,7 +13,7 @@ public protocol EJAbstractCustomBlock {
 
 ///
 public protocol EJCustomBlockProtocol: EJAbstractCustomBlock {
-    associatedtype View: ConfigurableBlockView
+    associatedtype View: ConfigurableBlockViewWithDelegate
     associatedtype Content: EJAbstractBlockContent
     
     var contentClass: Content.Type { get }
@@ -21,8 +21,7 @@ public protocol EJCustomBlockProtocol: EJAbstractCustomBlock {
 }
 
 ///
-public struct EJCustomBlock<V: EJBlockView, C: EJAbstractBlockContent>: EJCustomBlockProtocol, EJCustomBlockCollectionAdaptable where V: UIView {
-
+public struct EJCustomBlock<V: EJBlockViewWithDelegate, C: EJAbstractBlockContent>: EJCustomBlockProtocol, EJCustomBlockCollectionAdaptable where V: UIView {
     public typealias View = V
     public typealias Content = C
     
@@ -54,7 +53,7 @@ public struct EJCustomBlock<V: EJBlockView, C: EJAbstractBlockContent>: EJCustom
         let reuseId = HeaderBlockView.reuseId
         collectionView.register(Cell.self, forCellWithReuseIdentifier: reuseId)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath) as! Cell
-        cell.configure(withItem: item, style: style)
+        cell.configure(withItem: item, style: style, indexPath: indexPath, delegate: nil)
         return cell
     }
     

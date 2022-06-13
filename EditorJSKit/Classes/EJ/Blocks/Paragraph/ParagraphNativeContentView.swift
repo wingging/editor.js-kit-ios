@@ -9,8 +9,10 @@
 import UIKit
 
 ///
-open class ParagraphNativeContentView: UIView, ConfigurableBlockView {
+open class ParagraphNativeContentView: UIView, ConfigurableBlockViewWithDelegate {
+    
     public let textView = UITextViewFixed()
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -21,13 +23,11 @@ open class ParagraphNativeContentView: UIView, ConfigurableBlockView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
     private func setupViews() {
         addSubview(textView)
         
         textView.backgroundColor = .clear
-        textView.isEditable = false
+        textView.isEditable = true
         textView.alwaysBounceVertical = false
         textView.isScrollEnabled = false
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -40,8 +40,7 @@ open class ParagraphNativeContentView: UIView, ConfigurableBlockView {
     }
     
     // MARK: - ConfigurableBlockView conformance
-    
-    public func configure(withItem item: ParagraphBlockContentItem, style: EJBlockStyle?) {
+    public func configure(withItem item: ParagraphBlockContentItem, style: EJBlockStyle?, indexPath: IndexPath?, delegate: UITextViewDelegate?) {
         guard let style = style as? EJParagraphBlockStyle else { return }
         
         // 1. Apply UI
@@ -54,7 +53,9 @@ open class ParagraphNativeContentView: UIView, ConfigurableBlockView {
         if item.cachedAttributedString == nil {
             item.cachedAttributedString = attributedString
         }
+        textView.setTextViewMark(indexPath: indexPath)
         textView.attributedText = attributedString
+        textView.delegate = delegate
     }
     
     public static func estimatedSize(for item: ParagraphBlockContentItem, style: EJBlockStyle?, boundingWidth: CGFloat) -> CGSize {

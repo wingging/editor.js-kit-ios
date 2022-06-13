@@ -8,7 +8,7 @@
 import UIKit
 
 ///
-public class BaseBlockView<BlockView: UIView>: UIView, EJBlockView where BlockView: ConfigurableBlockView {
+public class BaseBlockView<BlockView: UIView>: UIView, EJBlockViewWithDelegate where BlockView: ConfigurableBlockViewWithDelegate {
     
     let baseView = UIView()
     let blockView = BlockView()
@@ -56,9 +56,9 @@ public class BaseBlockView<BlockView: UIView>: UIView, EJBlockView where BlockVi
     
     // MARK: - ConfigurableBlockView conformance
     
-    public func configure(withItem item: BlockView.BlockContentItem, style: EJBlockStyle?) {
+    public func configure(withItem item: BlockView.BlockContentItem, style: EJBlockStyle?, indexPath: IndexPath?, delegate: UITextViewDelegate?) {
         defer {
-            blockView.configure(withItem: item, style: style)
+            blockView.configure(withItem: item, style: style, indexPath: indexPath, delegate: delegate)
         }
         
         let insets = style?.insets ?? .zero

@@ -9,8 +9,8 @@
 import UIKit
 
 ///
-open class DelimiterNativeContentView: UIView, ConfigurableBlockView {
-    
+open class DelimiterNativeContentView: UIView, ConfigurableBlockViewWithDelegate {
+
     // MARK: - UI Properties
     
     public let label = UILabel()
@@ -39,8 +39,7 @@ open class DelimiterNativeContentView: UIView, ConfigurableBlockView {
     }
     
     // MARK: - ConfigurableBlockView conformance
-    
-    public func configure(withItem item: DelimiterBlockContentItem, style: EJBlockStyle?) {
+    public func configure(withItem item: DelimiterBlockContentItem, style: EJBlockStyle?, indexPath: IndexPath?, delegate: UITextViewDelegate?) {
         label.text = item.text
         
         guard let style = style as? EJDelimiterBlockStyle else { return }

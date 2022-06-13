@@ -13,3 +13,10 @@ public protocol ConfigurableBlockView {
     func configure(withItem item: BlockContentItem, style: EJBlockStyle?)
     static func estimatedSize(for item: BlockContentItem, style: EJBlockStyle?, boundingWidth: CGFloat) -> CGSize
 }
+
+///
+public protocol ConfigurableBlockViewWithDelegate {
+    associatedtype BlockContentItem
+    func configure(withItem item: BlockContentItem, style: EJBlockStyle?, indexPath: IndexPath?, delegate: UITextViewDelegate?)
+    static func estimatedSize(for item: BlockContentItem, style: EJBlockStyle?, boundingWidth: CGFloat) -> CGSize
+}

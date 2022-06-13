@@ -8,7 +8,7 @@
 import UIKit
 
 ///
-public class CollectionViewBlockCell<EmbeddedView: UIView>: UICollectionViewCell, ConfigurableBlockView where EmbeddedView: EJBlockView {
+public class CollectionViewBlockCell<EmbeddedView: UIView>: UICollectionViewCell, ConfigurableBlockViewWithDelegate where EmbeddedView: EJBlockViewWithDelegate {
     
     public typealias BlockContentItem = EmbeddedView.BlockContentItem
     
@@ -37,9 +37,9 @@ public class CollectionViewBlockCell<EmbeddedView: UIView>: UICollectionViewCell
             embeddedView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
-    
-    public func configure(withItem item: BlockContentItem, style: EJBlockStyle?) {
-        embeddedView.configure(withItem: item, style: style)
+
+    public func configure(withItem item: EmbeddedView.BlockContentItem, style: EJBlockStyle?, indexPath: IndexPath?, delegate: UITextViewDelegate?) {
+        embeddedView.configure(withItem: item, style: style, indexPath: indexPath, delegate: delegate)
     }
 
     /**
