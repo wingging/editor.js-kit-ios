@@ -31,6 +31,7 @@ open class ParagraphNativeContentView: UIView, ConfigurableBlockViewWithDelegate
         textView.alwaysBounceVertical = false
         textView.isScrollEnabled = false
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.addAccessoryAttributedView()
         NSLayoutConstraint.activate([
             textView.leftAnchor.constraint(equalTo: leftAnchor),
             textView.rightAnchor.constraint(equalTo: rightAnchor),
@@ -72,4 +73,5 @@ open class ParagraphNativeContentView: UIView, ConfigurableBlockViewWithDelegate
         let height = attributedString.textViewHeight(boundingWidth: newBoundingWidth)
         return CGSize(width: boundingWidth, height: height)
     }
+
 }

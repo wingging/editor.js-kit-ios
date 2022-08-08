@@ -8,7 +8,7 @@
 import Foundation
 
 ///
-public final class EJTableViewAdapter: NSObject, UITextViewDelegate {
+public class EJTableViewAdapter: NSObject, UITextViewDelegate {
     
     ///
     unowned let tableView: UITableView
@@ -24,7 +24,6 @@ public final class EJTableViewAdapter: NSObject, UITextViewDelegate {
         }
     }
 
-    
     // MARK: Inner tools
     private lazy var renderer = EJTableRenderer(tableView: tableView, kit: kit)
     
@@ -50,7 +49,7 @@ public final class EJTableViewAdapter: NSObject, UITextViewDelegate {
         
         switch blockType{
             case EJNativeBlockType.header:
-                let contentItem = HeaderBlockContentItem(text: "", level: 1)
+                let contentItem = HeaderBlockContentItem(text: "Hello", level: 1)
                 let block = EJAbstractBlock(initType: EJNativeBlockType.header, initData: HeaderBlockContent(contentItem: contentItem))
                 adapterDelegate?.add(block: block, index: insertRow)
                 DispatchQueue.main.async {
@@ -176,7 +175,7 @@ public final class EJTableViewAdapter: NSObject, UITextViewDelegate {
             case EJNativeBlockType.paragraph:
                 let contentItem = block!.data.getItem(atIndex: textViewFixed.row!) as! ParagraphBlockContentItem
                 if textViewString != nil{
-                    contentItem.text = textViewString!.string
+                    contentItem.text = textViewFixed.convertTextHTML()
                     contentItem.cachedAttributedString = textViewString!
                 }
                 block!.data.setItem(atIndex: textViewFixed.row!, contentItem: contentItem)
@@ -269,4 +268,24 @@ public protocol EJTableViewAdapterDelegate {
     func set(blockList:EJBlocksList?, closure:() -> Void)
     func add(block: EJAbstractBlock, index: Int)
     func delete(indexPath: IndexPath)
+}
+
+class UITableViewSeparatorNone: UITableView{
+    func viewDidLoad(){
+        separatorStyle = .none
+    }
+}
+
+public class EJTablePreviewViewAdapter: EJTableViewAdapter {
+    public override init(tableView: UITableView, kit: EJKit = .shared) {
+        super.init(tableView: tableView)
+        tableView.separatorStyle = .none
+        //tableView.isUserInteractionEnabled = false
+    }
+    
+    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
+        cell.isUserInteractionEnabled = false
+        return cell
+    }
 }

@@ -29,6 +29,7 @@ public class HeaderNativeContentView: UIView, ConfigurableBlockViewWithDelegate 
         textView.alwaysBounceVertical = false
         textView.isScrollEnabled = false
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.addAccessoryAttributedView()
         NSLayoutConstraint.activate([
             textView.leftAnchor.constraint(equalTo: leftAnchor),
             textView.rightAnchor.constraint(equalTo: rightAnchor),
